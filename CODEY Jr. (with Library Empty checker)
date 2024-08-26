@@ -1,0 +1,138 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class LibraryManagementSystem {
+    private static ArrayList<String> bookNames = new ArrayList<>();
+
+    public static void main(String[] args) {
+        boolean module = true;
+
+        while (module) {
+            Scanner myObj = new Scanner(System.in);
+            System.out.println("* * * * * * Welcome to the Library Management System * * * * * *");
+            System.out.println("Enter 'Start' to proceed with the program");
+            System.out.println("Enter 'End' to end with the program");
+            String selectModule = myObj.nextLine();
+
+            if (selectModule.equalsIgnoreCase("Start")) {
+                selectOption(); // Loop will continue inside this method until user exits
+            } else if (selectModule.equalsIgnoreCase("End")) {
+                System.out.println("Program ended. Thank you!");
+                module = false;
+            } else {
+                System.out.println("Error, please enter a valid input.");
+            }
+        }
+    }
+
+    private static void selectOption() {
+        boolean module = true;
+
+        while (module) {
+            Scanner myObj = new Scanner(System.in);
+            System.out.println("\n* * * * * * Operations * * * * * *");
+            System.out.println("[A] Add a book");
+            System.out.println("[B] Remove a book");
+            System.out.println("[C] Display the list and number of books");
+            System.out.println("[D] Check if the library is Empty"); // (LIBRARY EMPTY T/F CHECKER)
+            System.out.println("[E] Exit");
+
+            String optionSelection = myObj.nextLine();
+
+            switch (optionSelection.toUpperCase()) {
+                case "A":
+                    addBook();
+                    break;
+                case "B":
+                    removeBook();
+                    break;
+                case "C":
+                    displayBooks();
+                    break;
+                case "D":
+                    checkIfEmpty(); // (LIBRARY EMPTY T/F CHECKER)
+                    break;
+                case "E":
+                    module = false;
+                    break;
+                default:
+                    System.out.println("Error, please enter a valid option.");
+                    break;
+            }
+        }
+    }
+
+    private static void addBook() {
+        Scanner myObj = new Scanner(System.in);
+        System.out.println("\n* * * * * * Add a book * * * * * *");
+        System.out.print("Enter book name: ");
+        String bookName = myObj.nextLine();
+
+        bookNames.add(bookName);
+
+        System.out.println("Book \"" + bookName + "\" added to the library.\n");
+    }
+
+    private static void removeBook() {
+        if (bookNames.isEmpty()) {
+            System.out.println("Error, no books available to remove.");
+            return;
+        }
+
+        Scanner myObj = new Scanner(System.in);
+        System.out.println("\n* * * * * * Remove a book * * * * * *");
+        System.out.println("List of books: ");
+        for (int i = 0; i < bookNames.size(); i++) {
+            System.out.println((i + 1) + ". " + bookNames.get(i));
+        }
+        System.out.print("\nEnter the index number of the book to remove or enter 0 to cancel: ");
+        int index = myObj.nextInt();
+        myObj.nextLine(); // Consume newline
+
+        if (index == 0) {
+            System.out.println("No book was removed.");
+            return;
+        }
+
+        if (index > 0 && index <= bookNames.size()) {
+            System.out.println("The book: \"" + bookNames.get(index - 1) + "\" has been removed.");
+            bookNames.remove(index - 1);
+        } else {
+            System.out.println("Error, please enter a valid index.");
+        }
+    }
+
+    private static void displayBooks() {
+        if (bookNames.isEmpty()) {
+            System.out.println("No books available.");
+        } else {
+            System.out.println("\n* * * * * * List of books * * * * * *");
+            for (int i = 0; i < bookNames.size(); i++) {
+                System.out.println((i + 1) + ". " + bookNames.get(i));
+            }
+            System.out.println("\n* * * * * * Number of books * * * * * *");
+            System.out.println("Quantity: " + bookNames.size());
+        }
+
+        Scanner myObj = new Scanner(System.in);
+        System.out.print("\nEnter 'Done' to return to the main menu: ");
+        while (true) {
+            String input = myObj.nextLine();
+            if (input.equalsIgnoreCase("Done")) {
+                break;
+            } else {
+                System.out.print("Invalid input. Please enter 'done' to return: ");
+            }
+        }
+    }
+
+    // (LIBRARY EMPTY T/F CHECKER)
+    private static void checkIfEmpty() {
+        boolean isEmpty = bookNames.isEmpty();
+        if (isEmpty) {
+            System.out.println("The library is empty.(true)");
+        } else {
+            System.out.println("The library is not empty. (false)");
+        }
+    }
+}
