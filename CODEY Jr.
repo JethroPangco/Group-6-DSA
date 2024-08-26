@@ -1,4 +1,7 @@
-public class LibraryManagementFuckingSystem {
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class LibraryManagementSystem {
     private static ArrayList<String> bookNames = new ArrayList<>();
 
     public static void main(String[] args) {
