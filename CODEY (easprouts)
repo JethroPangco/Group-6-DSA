@@ -1,0 +1,148 @@
+import java.util.Scanner;
+
+public class LibraryManagementSystem {
+
+    public static void main(String[] args) {
+        LibraryADT library = new LibraryADT(5);
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nLIBRARY MANAGEMENT SYSTEM\n");
+            System.out.println("(1) ADD A BOOK");
+            System.out.println("(2) INSERT A BOOK AT A SPECIFIC INDEX");
+            System.out.println("(3) REMOVE A BOOK");
+            System.out.println("(4) SEARCH FOR A BOOK BY INDEX");
+            System.out.println("(5) DISPLAY ALL BOOKS");
+            System.out.println("(6) DISPLAY TOTAL NUMBER OF BOOKS");
+            System.out.println("(7) CHECK IF LIBRARY IS EMPTY");
+            System.out.println("(8) EXIT");
+            System.out.print("TYPE THE NUMBER OF YOUR CHOICE: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("ENTER THE BOOK TITLE: ");
+                    String book = scanner.nextLine();
+                    library.add(book);
+                    System.out.println("BOOK ADDED.");
+                    break;
+                case 2:
+                    System.out.print("ENTER THE INDEX: ");
+                    int index = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("ENTER THE BOOK TITLE: ");
+                    book = scanner.nextLine();
+                    library.insert(index, book);
+                    System.out.println("BOOK INSERTED.");
+                    break;
+                case 3:
+                    System.out.print("ENTER THE INDEX OF THE BOOK TO REMOVE: ");
+                    index = scanner.nextInt();
+                    library.remove(index);
+                    System.out.println("BOOK REMOVED.");
+                    break;
+                case 4:
+                    System.out.print("ENTER THE INDEX TO SEARCH: ");
+                    index = scanner.nextInt();
+                    System.out.println("BOOK AT INDEX " + index + ": " + library.get(index));
+                    break;
+                case 5:
+                    library.displayBooks();
+                    break;
+                case 6:
+                    System.out.println("TOTAL NUMBER OF BOOKS: " + library.size());
+                    break;
+                case 7:
+                    System.out.println("IS THE LIBRARY EMPTY? " + library.isEmpty());
+                    break;
+                case 8:
+                    System.out.println("EXITING...");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("INVALID CHOICE. PLEASE TRY AGAIN.");
+                    break;
+            }
+        }
+    }
+
+    static class LibraryADT {
+        private String[] books;
+        private int size;
+
+        public LibraryADT(int capacity) {
+            books = new String[capacity];
+            size = 0;
+        }
+
+        public void add(String book) {
+            if (size == books.length) {
+                resize();
+            }
+            books[size] = book;
+            size++;
+        }
+
+        public void insert(int index, String book) {
+            if (index < 0 || index > size) {
+                throw new IndexOutOfBoundsException("INVALID INDEX");
+            }
+            if (size == books.length) {
+                resize();
+            }
+            for (int i = size; i > index; i--) {
+                books[i] = books[i - 1];
+            }
+            books[index] = book;
+            size++;
+        }
+
+        public void remove(int index) {
+            if (index < 0 || index >= size) {
+                throw new IndexOutOfBoundsException("INVALID INDEX");
+            }
+            for (int i = index; i < size - 1; i++) {
+                books[i] = books[i + 1];
+            }
+            books[size - 1] = null;
+            size--;
+        }
+
+        public String get(int index) {
+            if (index < 0 || index >= size) {
+                throw new IndexOutOfBoundsException("INVALID INDEX");
+            }
+            return books[index];
+        }
+
+        public int size() {
+            return size;
+        }
+
+        public boolean isEmpty() {
+            return size == 0;
+        }
+
+        private void resize() {
+            String[] newBooks = new String[books.length * 2];
+            for (int i = 0; i < books.length; i++) {
+                newBooks[i] = books[i];
+            }
+            books = newBooks;
+        }
+
+        public void displayBooks() {
+            if (isEmpty()) {
+                System.out.println("THE LIBRARY IS EMPTY.");
+            } else {
+                System.out.println("BOOKS IN THE LIBRARY:");
+                for (int i = 0; i < size; i++) {
+                    System.out.println((i + 1) + ". " + books[i]);
+                }
+            }
+        }
+    }
+}
