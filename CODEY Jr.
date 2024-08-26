@@ -49,6 +49,9 @@ public class LibraryManagementSystem {
                     displayBooks();
                     break;
                 case "D":
+                    insertBooks();
+                    break;
+                case "E":
                     module = false;
                     break;
                 default:
@@ -121,6 +124,32 @@ public class LibraryManagementSystem {
             } else {
                 System.out.print("Invalid input. Please enter 'done' to return: ");
             }
+        }
+    }
+    // Insert a book at a specific index
+    private static void insertBooks() {
+    	Scanner myObj = new Scanner (System.in);
+    	
+    	System.out.println("\n* * * * * * Insert a book at a specific index * * * * * *");
+        System.out.print("Enter book name: ");
+        String bookName = myObj.nextLine();
+        
+        if (bookNames.isEmpty()) {
+        	System.out.println("Booklist is currently empty.");
+        	bookNames.add(0, bookName);
+        }
+        else {
+        	System.out.print("Enter the specific index at which to insert the book (1 to " + (bookNames.size()+1) + "): \nEnter 0 to cancel.");
+        	int index = myObj.nextInt();
+        	myObj.nextLine();
+        	
+        	if (index>=1 && index<= bookNames.size()+1) {
+        		bookNames.add(index - 1, bookName);
+        		System.out.println ("Book \"" + bookName + "\" added at index " + index + ".\n");
+        	}
+        	else {
+        		System.out.println("Invalid index. The book was not added to the library.");
+        	}
         }
     }
 }
