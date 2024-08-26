@@ -1,4 +1,4 @@
-public class LibraryManagementSystem {
+public class LibraryManagementFuckingSystem {
     private static ArrayList<String> bookNames = new ArrayList<>();
 
     public static void main(String[] args) {
