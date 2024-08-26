@@ -1,0 +1,158 @@
+import java.util.Scanner;
+
+public class LibraryManagementSystem {
+    
+    // LibraryADT class as an inner class
+    static class LibraryADT {
+        private String[] books;
+        private int size;
+
+        // Constructor with initial capacity
+        public LibraryADT(int capacity) {
+            books = new String[capacity];
+            size = 0;
+        }
+
+        // Add a book to the end
+        public void add(String book) {
+            if (size == books.length) {
+                resize();
+            }
+            books[size] = book;
+            size++;
+        }
+
+        // Insert a book at a specific index
+        public void insert(int index, String book) {
+            if (index < 0 || index > size) {
+                throw new IndexOutOfBoundsException("Invalid index");
+            }
+            if (size == books.length) {
+                resize();
+            }
+            for (int i = size; i > index; i--) {
+                books[i] = books[i - 1];
+            }
+            books[index] = book;
+            size++;
+        }
+
+        // Remove a book at a specific index
+        public void remove(int index) {
+            if (index < 0 || index >= size) {
+                throw new IndexOutOfBoundsException("Invalid index");
+            }
+            for (int i = index; i < size - 1; i++) {
+                books[i] = books[i + 1];
+            }
+            books[size - 1] = null;
+            size--;
+        }
+
+        // Get the book at a specific index
+        public String get(int index) {
+            if (index < 0 || index >= size) {
+                throw new IndexOutOfBoundsException("Invalid index");
+            }
+            return books[index];
+        }
+
+        // Get the current number of books
+        public int size() {
+            return size;
+        }
+
+        // Check if the library is empty
+        public boolean isEmpty() {
+            return size == 0;
+        }
+
+        // Dynamic resizing: doubles the size of the array when full
+        private void resize() {
+            String[] newBooks = new String[books.length * 2];
+            for (int i = 0; i < books.length; i++) {
+                newBooks[i] = books[i];
+            }
+            books = newBooks;
+        }
+
+        // Display all books in the library
+        public void displayBooks() {
+            if (isEmpty()) {
+                System.out.println("The library is empty.");
+            } else {
+                System.out.println("Books in the library:");
+                for (int i = 0; i < size; i++) {
+                    System.out.println((i + 1) + ". " + books[i]);
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        LibraryADT library = new LibraryADT(5);  // Initial capacity of 5
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nLibrary Management System");
+            System.out.println("1. Add a book");
+            System.out.println("2. Insert a book at a specific index");
+            System.out.println("3. Remove a book");
+            System.out.println("4. Search for a book by index");
+            System.out.println("5. Display all books");
+            System.out.println("6. Display total number of books");
+            System.out.println("7. Check if library is empty");
+            System.out.println("8. Exit");
+            System.out.print("Choose an option: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the book title: ");
+                    String book = scanner.nextLine();
+                    library.add(book);
+                    System.out.println("Book added.");
+                    break;
+                case 2:
+                    System.out.print("Enter the index: ");
+                    int index = scanner.nextInt();
+                    scanner.nextLine();  // Consume the newline character
+                    System.out.print("Enter the book title: ");
+                    book = scanner.nextLine();
+                    library.insert(index, book);
+                    System.out.println("Book inserted.");
+                    break;
+                case 3:
+                    System.out.print("Enter the index of the book to remove: ");
+                    index = scanner.nextInt();
+                    library.remove(index);
+                    System.out.println("Book removed.");
+                    break;
+                case 4:
+                    System.out.print("Enter the index to search: ");
+                    index = scanner.nextInt();
+                    System.out.println("Book at index " + index + ": " + library.get(index));
+                    break;
+                case 5:
+                    library.displayBooks();
+                    break;
+                case 6:
+                    System.out.println("Total number of books: " + library.size());
+                    break;
+                case 7:
+                    System.out.println("Is the library empty? " + library.isEmpty());
+                    break;
+                case 8:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        }
+    }
+}
