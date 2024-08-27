@@ -7,64 +7,54 @@ public class LibraryManagementSystem {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\nLIBRARY MANAGEMENT SYSTEM\n");
-            System.out.println("(1) ADD A BOOK");
-            System.out.println("(2) INSERT A BOOK AT A SPECIFIC INDEX");
-            System.out.println("(3) REMOVE A BOOK");
-            System.out.println("(4) SEARCH FOR A BOOK BY INDEX");
-            System.out.println("(5) DISPLAY ALL BOOKS");
-            System.out.println("(6) DISPLAY TOTAL NUMBER OF BOOKS");
-            System.out.println("(7) CHECK IF LIBRARY IS EMPTY");
-            System.out.println("(8) EXIT");
-            System.out.print("TYPE THE NUMBER OF YOUR CHOICE: ");
+            System.out.println("\nLIBRARY MANAGEMENT SYSTEM");
+            System.out.println("1. ADD A BOOK");
+            System.out.println("2. INSERT A BOOK AT A SPECIFIC INDEX");
+            System.out.println("3. REMOVE A BOOK");
+            System.out.println("4. SEARCH FOR A BOOK BY INDEX");
+            System.out.println("5. DISPLAY ALL BOOKS");
+            System.out.println("6. DISPLAY TOTAL NUMBER OF BOOKS");
+            System.out.println("7. CHECK IF LIBRARY IS EMPTY");
+            System.out.println("8. EXIT");
+            System.out.print("CHOOSE AN OPTION: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
 
-            switch (choice) {
-                case 1:
-                    System.out.print("ENTER THE BOOK TITLE: ");
-                    String book = scanner.nextLine();
-                    library.add(book);
-                    System.out.println("BOOK ADDED.");
-                    break;
-                case 2:
-                    System.out.print("ENTER THE INDEX: ");
-                    int index = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.print("ENTER THE BOOK TITLE: ");
-                    book = scanner.nextLine();
-                    library.insert(index, book);
-                    System.out.println("BOOK INSERTED.");
-                    break;
-                case 3:
-                    System.out.print("ENTER THE INDEX OF THE BOOK TO REMOVE: ");
-                    index = scanner.nextInt();
-                    library.remove(index);
-                    System.out.println("BOOK REMOVED.");
-                    break;
-                case 4:
-                    System.out.print("ENTER THE INDEX TO SEARCH: ");
-                    index = scanner.nextInt();
-                    System.out.println("BOOK AT INDEX " + index + ": " + library.get(index));
-                    break;
-                case 5:
-                    library.displayBooks();
-                    break;
-                case 6:
-                    System.out.println("TOTAL NUMBER OF BOOKS: " + library.size());
-                    break;
-                case 7:
-                    System.out.println("IS THE LIBRARY EMPTY? " + library.isEmpty());
-                    break;
-                case 8:
-                    System.out.println("EXITING...");
-                    scanner.close();
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("INVALID CHOICE. PLEASE TRY AGAIN.");
-                    break;
+            if (choice == 1) {
+                System.out.print("ENTER THE BOOK TITLE: ");
+                String book = scanner.nextLine();
+                library.add(book);
+                System.out.println("BOOK ADDED.");
+            } else if (choice == 2) {
+                System.out.print("ENTER THE INDEX: ");
+                int index = scanner.nextInt();
+                scanner.nextLine();
+                System.out.print("ENTER THE BOOK TITLE: ");
+                String book = scanner.nextLine();
+                library.insert(index, book);
+                System.out.println("BOOK INSERTED.");
+            } else if (choice == 3) {
+                System.out.print("ENTER THE INDEX OF THE BOOK TO REMOVE: ");
+                int index = scanner.nextInt();
+                library.remove(index);
+                System.out.println("BOOK REMOVED.");
+            } else if (choice == 4) {
+                System.out.print("ENTER THE INDEX TO SEARCH: ");
+                int index = scanner.nextInt();
+                System.out.println("BOOK AT INDEX " + index + ": " + library.get(index));
+            } else if (choice == 5) {
+                library.displayBooks();
+            } else if (choice == 6) {
+                System.out.println("TOTAL NUMBER OF BOOKS: " + library.size());
+            } else if (choice == 7) {
+                System.out.println("IS THE LIBRARY EMPTY? " + library.isEmpty());
+            } else if (choice == 8) {
+                System.out.println("EXITING...");
+                scanner.close();
+                System.exit(0);
+            } else {
+                System.out.println("INVALID CHOICE. PLEASE TRY AGAIN.");
             }
         }
     }
