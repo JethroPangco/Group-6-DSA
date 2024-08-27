@@ -8,14 +8,14 @@ public class LibraryManagementSystem {
 
         while (true) {
             System.out.println("\nLIBRARY MANAGEMENT SYSTEM");
-            System.out.println("1. ADD A BOOK");
-            System.out.println("2. INSERT A BOOK AT A SPECIFIC INDEX");
-            System.out.println("3. REMOVE A BOOK");
-            System.out.println("4. SEARCH FOR A BOOK BY INDEX");
-            System.out.println("5. DISPLAY ALL BOOKS");
-            System.out.println("6. DISPLAY TOTAL NUMBER OF BOOKS");
-            System.out.println("7. CHECK IF LIBRARY IS EMPTY");
-            System.out.println("8. EXIT");
+            System.out.println("(1) ADD A BOOK");
+            System.out.println("(2) INSERT A BOOK AT A SPECIFIC INDEX");
+            System.out.println("(3) REMOVE A BOOK");
+            System.out.println("(4) SEARCH FOR A BOOK BY INDEX");
+            System.out.println("(5) DISPLAY ALL BOOKS");
+            System.out.println("(6) DISPLAY TOTAL NUMBER OF BOOKS");
+            System.out.println("(7) CHECK IF LIBRARY IS EMPTY");
+            System.out.println("(8) EXIT");
             System.out.print("CHOOSE AN OPTION: ");
 
             int choice = scanner.nextInt();
