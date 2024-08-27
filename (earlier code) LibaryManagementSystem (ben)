@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class LibraryManagementSystem {
+public class LibaryManagementSystem {
 
     public static void main(String[] args) {
         LibraryADT library = new LibraryADT(5);
