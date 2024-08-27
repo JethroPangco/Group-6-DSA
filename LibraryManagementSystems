@@ -171,7 +171,7 @@ public class LibraryManagementSystem {
     	    System.out.println("Booklist is currently empty.");
     	    bookNames.add(0, bookName);
     	} else {
-    	    System.out.print("Enter the specific index at which to insert the book (0 to " + (bookNames.size()) + "): \nEnter B to return: ");
+    	    System.out.print("Enter the specific index at which to insert the book (0 to " + (bookNames.size()-1) + "): \nEnter B to return: ");
     	    String input = myObj.nextLine(); // Get input as a String
 
     	    if (input.equalsIgnoreCase("B")) {
