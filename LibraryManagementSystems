@@ -1,3 +1,5 @@
+package ArrayList;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -35,7 +37,8 @@ public class LibraryManagementSystem {
             System.out.println("[B] Remove a book");
             System.out.println("[C] Display the list and number of books");
             System.out.println("[D] Check if the library is Empty"); // (LIBRARY EMPTY T/F CHECKER)
-            System.out.println("[E] Exit");
+            System.out.println("[E] Insert a book on a specific index");
+            System.out.println("[F] Exit");
 
             String optionSelection = myObj.nextLine();
 
@@ -56,7 +59,7 @@ public class LibraryManagementSystem {
                     insertBooks();
                     break;
                 case "F":
-                    module = false;
+                	module=false;
                     break;
                 default:
                     System.out.println("Error, please enter a valid option.");
@@ -68,10 +71,18 @@ public class LibraryManagementSystem {
     private static void addBook() {
         Scanner myObj = new Scanner(System.in);
         System.out.println("\n* * * * * * Add a book * * * * * *");
-        System.out.print("Enter book name: ");
+        System.out.print("Enter book name or enter 'B' to return: ");
         String bookName = myObj.nextLine();
 
         bookNames.add(bookName);
+        
+        if (bookName.equalsIgnoreCase("B")) {
+            System.out.println("No book was added.");
+            return;
+        }
+        else {
+        	System.out.println("Error, please enter a valid input");
+        }
 
         System.out.println("Book \"" + bookName + "\" added to the library.\n");
     }
@@ -86,22 +97,27 @@ public class LibraryManagementSystem {
         System.out.println("\n* * * * * * Remove a book * * * * * *");
         System.out.println("List of books: ");
         for (int i = 0; i < bookNames.size(); i++) {
-            System.out.println((i + 1) + ". " + bookNames.get(i));
+            System.out.println((i) + ". " + bookNames.get(i)); // Adjusted index to start from 1
         }
-        System.out.print("\nEnter the index number of the book to remove or enter 0 to cancel: ");
-        int index = myObj.nextInt();
-        myObj.nextLine(); // Consume newline
+        System.out.print("\nEnter the index number of the book to remove or enter 'C' to cancel: ");
+        String input = myObj.nextLine(); // Get the input as a String
 
-        if (index == 0) {
+        if (input.equalsIgnoreCase("B")) {
             System.out.println("No book was removed.");
             return;
         }
 
-        if (index > 0 && index <= bookNames.size()) {
-            System.out.println("The book: \"" + bookNames.get(index - 1) + "\" has been removed.");
-            bookNames.remove(index - 1);
-        } else {
-            System.out.println("Error, please enter a valid index.");
+        try {
+            int index = Integer.parseInt(input); // Try to parse the input as an integer
+
+            if (index > 0 && index <= bookNames.size()) {
+                System.out.println("The book: \"" + bookNames.get(index - 1) + "\" has been removed.");
+                bookNames.remove(index - 1);
+            } else {
+                System.out.println("Error, please enter a valid index.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Error, please enter a valid index or 'B' to return.");
         }
     }
 
@@ -111,20 +127,20 @@ public class LibraryManagementSystem {
         } else {
             System.out.println("\n* * * * * * List of books * * * * * *");
             for (int i = 0; i < bookNames.size(); i++) {
-                System.out.println((i + 1) + ". " + bookNames.get(i));
+                System.out.println((i) + ". " + bookNames.get(i));
             }
             System.out.println("\n* * * * * * Number of books * * * * * *");
             System.out.println("Quantity: " + bookNames.size());
         }
 
         Scanner myObj = new Scanner(System.in);
-        System.out.print("\nEnter 'Done' to return to the main menu: ");
+        System.out.print("\nEnter 'B' to return: ");
         while (true) {
             String input = myObj.nextLine();
-            if (input.equalsIgnoreCase("Done")) {
+            if (input.equalsIgnoreCase("B")) {
                 break;
             } else {
-                System.out.print("Invalid input. Please enter 'done' to return: ");
+                System.out.print("Invalid input. Please enter 'B' to return: ");
             }
         }
     }
@@ -144,25 +160,36 @@ public class LibraryManagementSystem {
     	Scanner myObj = new Scanner (System.in);
     	
     	System.out.println("\n* * * * * * Insert a book at a specific index * * * * * *");
-        System.out.print("Enter book name: ");
-        String bookName = myObj.nextLine();
-        
-        if (bookNames.isEmpty()) {
-        	System.out.println("Booklist is currently empty.");
-        	bookNames.add(0, bookName);
+    	System.out.println("List of books: ");
+        for (int i = 0; i < bookNames.size(); i++) {
+            System.out.println((i) + ". " + bookNames.get(i)); // Adjusted index to start from 1
         }
-        else {
-        	System.out.print("Enter the specific index at which to insert the book (1 to " + (bookNames.size()+1) + "): \nEnter 0 to cancel.");
-        	int index = myObj.nextInt();
-        	myObj.nextLine();
-        	
-        	if (index>=1 && index<= bookNames.size()+1) {
-        		bookNames.add(index - 1, bookName);
-        		System.out.println ("Book \"" + bookName + "\" added at index " + index + ".\n");
-        	}
-        	else {
-        		System.out.println("Invalid index. The book was not added to the library.");
-        	}
-        }
+    	System.out.print("Enter book name: ");
+    	String bookName = myObj.nextLine();
+
+    	if (bookNames.isEmpty()) {
+    	    System.out.println("Booklist is currently empty.");
+    	    bookNames.add(0, bookName);
+    	} else {
+    	    System.out.print("Enter the specific index at which to insert the book (0 to " + (bookNames.size()) + "): \nEnter B to return: ");
+    	    String input = myObj.nextLine(); // Get input as a String
+
+    	    if (input.equalsIgnoreCase("B")) {
+    	        System.out.println("No book was inserted.");
+    	    } else {
+    	        try {
+    	            int index = Integer.parseInt(input); // Parse the input as an integer
+
+    	            if (index >= 1 && index <= bookNames.size() + 1) {
+    	                bookNames.add(index - 1, bookName);
+    	                System.out.println("Book \"" + bookName + "\" added at index " + index + ".\n");
+    	            } else {
+    	                System.out.println("Invalid index. The book was not added to the library.");
+    	            }
+    	        } catch (NumberFormatException e) {
+    	            System.out.println("Invalid input. The book was not added to the library.");
+    	        }
+    	    }
+    	}        
     }
 }
