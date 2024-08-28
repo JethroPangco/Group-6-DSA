@@ -13,7 +13,7 @@ public class LibraryManagementSystem {
             Scanner myObj = new Scanner(System.in);
             System.out.println("* * * * * * Welcome to the Library Management System * * * * * *");
             System.out.println("Enter 'Start' to proceed with the program");
-            System.out.println("Enter 'End' to end with the program");
+            System.out.println("Enter 'End' to end the program");
             String selectModule = myObj.nextLine();
 
             if (selectModule.equalsIgnoreCase("Start")) {
@@ -42,6 +42,7 @@ public class LibraryManagementSystem {
             System.out.println("[E] Insert a book on a specific index");
             System.out.println("[F] Search for a book by index"); // Added option for searching
             System.out.println("[G] Exit");
+            System.out.println("Enter a operation to implement: ");
 
             String optionSelection = myObj.nextLine();
             // Handle user's selection
@@ -125,7 +126,6 @@ public class LibraryManagementSystem {
     }
     
     // Method to display all books in the library
-    
     private static void displayBooks() {
         if (bookNames.isEmpty()) {
             System.out.println("No books available.");
