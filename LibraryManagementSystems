@@ -36,7 +36,9 @@ public class LibraryManagementSystem {
             System.out.println("[A] Add a book");
             System.out.println("[B] Remove a book");
             System.out.println("[C] Display the list and number of books");
-            System.out.println("[D] Check if the library is Empty"); // (LIBRARY EMPTY T/F CHECKER)
+            
+            // (LIBRARY EMPTY T/F CHECKER)
+            System.out.println("[D] Check if the library is Empty"); 
             System.out.println("[E] Exit");
 
             String optionSelection = myObj.nextLine();
@@ -51,8 +53,10 @@ public class LibraryManagementSystem {
                 case "C":
                     displayBooks();
                     break;
+              
+              // (LIBRARY EMPTY T/F CHECKER)
                 case "D":
-                    checkIfEmpty(); // (LIBRARY EMPTY T/F CHECKER)
+                    checkIfEmpty(); 
                     break;
                 case "E":
                     insertBooks();
