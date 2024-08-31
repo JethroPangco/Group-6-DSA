@@ -126,7 +126,7 @@ public class LibraryManagementSystem {
         }
 
         Scanner myObj = new Scanner(System.in);
-        System.out.print("\Press '1' to return to the main menu: ");
+        System.out.print("\nPress '1' to return to the main menu: ");
         while (true) {
             String input = myObj.nextLine();
             if (input.equalsIgnoreCase("1")) {
