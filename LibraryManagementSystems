@@ -39,7 +39,8 @@ public class LibraryManagementSystem {
             
             // (LIBRARY EMPTY T/F CHECKER)
             System.out.println("[D] Check if the library is Empty"); 
-            System.out.println("[E] Exit");
+            System.out.println("[E] To insert book at a specific index");
+	    System.out.println("[F] Exit");
 
             String optionSelection = myObj.nextLine();
 
