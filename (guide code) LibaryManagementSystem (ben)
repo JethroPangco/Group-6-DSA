@@ -16,7 +16,6 @@ public class LibaryManagementSystem {
             System.out.println("(6) DISPLAY TOTAL NUMBER OF BOOKS");
             System.out.println("(7) CHECK IF LIBRARY IS EMPTY");
             System.out.println("(8) EXIT");
-             System.out.println("(8) ulol");
             System.out.print("CHOOSE AN OPTION: ");
 
             int choice = scanner.nextInt();
