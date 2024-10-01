@@ -48,7 +48,8 @@ public class LibraryManagementSystem {
             System.out.println("[F] Search for a book by index");
             System.out.println("[G] Display book categories (Fixed size Array)");
             System.out.println("[H] Undo Adding/Removing Action");
-            System.out.println("[I] Exit");
+            System.out.println("[I] Sort Books");
+            System.out.println("[J] Exit");
 
             String optionSelection = myObj.nextLine();
 
@@ -78,6 +79,9 @@ public class LibraryManagementSystem {
                     undoAction();
                     break;
                 case "I":
+                    bookSort();
+                    break;
+                case "J":
                     module = false;
                     break;
                 default:
@@ -221,5 +225,26 @@ public class LibraryManagementSystem {
             bookNames.add(bookName);
             System.out.println("Undid removing of book: " + bookName);
         }
+    }
+
+        // BUBBLE SORT
+        private static void bookSort() {
+        int n = bookNames.size();
+        if (n == 0) {
+            System.out.println("No books to sort.");
+            return;
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (bookNames.get(j).compareToIgnoreCase(bookNames.get(j + 1)) > 0) {
+
+                    String temp = bookNames.get(j);
+                    bookNames.set(j, bookNames.get(j + 1));
+                    bookNames.set(j + 1, temp);
+                }
+            }
+        }
+        System.out.println("Books have been sorted alphabetically.");
     }
 }
