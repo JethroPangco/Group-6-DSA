@@ -6,6 +6,7 @@ public class LibraryManagementSystem {
 	// ArrayList to store book names
     private static ArrayList<String> bookNames = new ArrayList<>();
 
+    private static Stack<String> actStack = new Stack<>();
 
     public static void main(String[] args) {
     	// Main loop for the program
@@ -47,7 +48,8 @@ public class LibraryManagementSystem {
             System.out.println("[D] Check if the library is Empty"); // (LIBRARY EMPTY T/F CHECKER)
             System.out.println("[E] Insert a book on a specific index");
             System.out.println("[F] Search for a book by index"); // Added option for searching
-            System.out.println("[G] Exit");
+            System.out.println("[G] Undo Adding/Removing Action");
+            System.out.println("[H] Exit");
 
 
             String optionSelection = myObj.nextLine();
@@ -72,6 +74,9 @@ public class LibraryManagementSystem {
                     searchBookByIndex(); // New case for searching by index
                     break;
                 case "G":
+                    undoAct(); //Undo last action
+                    break;
+                case "H":
                     module = false;
                     break;
                 default:
@@ -94,8 +99,8 @@ public class LibraryManagementSystem {
             return;
         }
 
-
         bookNames.add(bookName);
+        actStack.push(bookName);
         System.out.println("Book \"" + bookName + "\" added to the library.\n");
     }
     // Method to remove a book from the library
@@ -104,7 +109,6 @@ public class LibraryManagementSystem {
             System.out.println("Error, no books available to remove.");
             return;
         }
-
 
         Scanner myObj = new Scanner(System.in);
         System.out.println("\n* * * * * * Remove a book * * * * * *");
@@ -127,8 +131,11 @@ public class LibraryManagementSystem {
 
 
             if (index >= 0 && index < bookNames.size()) {
-                System.out.println("The book: \"" + bookNames.get(index) + "\" has been removed.");
+            	String delBook = bookNames.get(index);
+                
                 bookNames.remove(index);
+                actStack.push("Delete: " + delBook);
+                System.out.println("The \"" + delBook + "\" has been removed.");
             } else {
                 System.out.println("Error, please enter a valid index.");
             }
@@ -253,4 +260,24 @@ public class LibraryManagementSystem {
             System.out.println("Error, please enter a valid index or 'C' to return.");
         }
     }
+
+   // Undo Adding/Removing Action 
+   private static void undoAct() {
+	   if(actStack.isEmpty()) {
+		   System.out.println("Nothing to undo.");
+		   return;
+	   }
+	   
+	   String lastAct = actStack.pop();
+	   String actInfo[] = lastAct.split(": ");
+	   
+	   if (actInfo[0].equals("Add")) { 
+		   bookNames.remove(actInfo[1]); //cancel add action
+		   System.out.print("Cancel adding of book: " + actInfo[1]);
+	   }
+	   else if (actInfo[0].equals("Delete")) {
+		   bookNames.add(actInfo[1]); //cancel remove action
+		   System.out.print("Cancel removing of book: " + actInfo[1]);
+	   }
+   }
 }
