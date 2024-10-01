@@ -1,249 +1,227 @@
 import java.util.*;
-
 public class LibraryManagementSystem {
-    // Array for fixed categories
-    private static final String[] bookCategories = {
-        "Fiction", "Non-Fiction", "Science", "History", "Fantasy", "Mystery"
-    };
+   // Array for fixed categories
+   private static final String[] bookCategories = {
+       "Fiction", "Non-Fiction", "Science", "History", "Fantasy", "Mystery"
+   };
+   // ArrayList to store book names (dynamic size)
+   private static ArrayList<String> bookNames = new ArrayList<>();
+   // Stack to store actions for undo functionality
+   private static Stack<String> actionStack = new Stack<>();
+   public static void main(String[] args) {
+       boolean module = true;
+       while (module) {
+           Scanner myObj = new Scanner(System.in);
+           System.out.println("* * * * * * Welcome to the Library Management System * * * * * *");
+           System.out.println("Enter 'Start' to proceed with the program");
+           System.out.println("Enter 'End' to end the program");
+           String selectModule = myObj.nextLine();
+           if (selectModule.equalsIgnoreCase("Start")) {
+               selectOption();
+           } else if (selectModule.equalsIgnoreCase("End")) {
+               System.out.println("Program ended. Thank you!");
+               module = false;
+           } else {
+               System.out.println("Error, please enter a valid input.");
+           }
+       }
+   }
+   // Method to display and handle menu options
+   private static void selectOption() {
+       boolean module = true;
+       while (module) {
+           Scanner myObj = new Scanner(System.in);
+           System.out.println("\n* * * * * * Operations * * * * * *");
+           System.out.println("[A] Add a book");
+           System.out.println("[B] Remove a book");
+           System.out.println("[C] Display the list and number of books");
+           System.out.println("[D] Check if the library is Empty");
+           System.out.println("[E] Insert a book on a specific index");
+           System.out.println("[F] Search for a book by index");
+           System.out.println("[G] Display book categories (Fixed size Array)");
+           System.out.println("[H] Undo Adding/Removing Action");
+           System.out.println("[I] Alphabeticize List");
+           System.out.println("[J] Exit");
+           String optionSelection = myObj.nextLine();
+           switch (optionSelection.toUpperCase()) {
+               case "A":
+                   addBook();
+                   break;
+               case "B":
+                   removeBook();
+                   break;
+               case "C":
+                   displayBooks();
+                   break;
+               case "D":
+                   checkIfEmpty();
+                   break;
+               case "E":
+                   insertBook();
+                   break;
+               case "F":
+                   searchBookByIndex();
+                   break;
+               case "G":
+                   displayCategories(); // Display fixed-size array
+                   break;
+               case "H":
+                   undoAction();
+                   break;
+               case "I":
+                   shellSort(bookNames);
+                   System.out.println("Books sorted alphabetically.");
+                   displayBooks();
+                   break;
+               case "J":
+                   module = false;
+                   break;
+               default:
+                   System.out.println("Error, please enter a valid option.");
+                   break;
+           }
+       }
+   }
+   // Add a book to the dynamic list
+   private static void addBook() {
+       Scanner myObj = new Scanner(System.in);
+       System.out.println("\n* * * * * * Add a book * * * * * *");
+       System.out.print("Enter book name or 'B' to return: ");
+       String bookName = myObj.nextLine();
+       if (bookName.equalsIgnoreCase("B")) {
+           return;
+       }
+       bookNames.add(bookName);
+       actionStack.push("Add: " + bookName);
+       System.out.println("Book \"" + bookName + "\" added to the library.");
+   }
+   // Remove a book from the dynamic list
+   private static void removeBook() {
+       if (bookNames.isEmpty()) {
+           System.out.println("No books available to remove.");
+           return;
+       }
+       Scanner myObj = new Scanner(System.in);
+       System.out.println("\n* * * * * * Remove a book * * * * * *");
+       for (int i = 0; i < bookNames.size(); i++) {
+           System.out.println(i + ". " + bookNames.get(i));
+       }
+       System.out.print("Enter the index number of the book to remove or 'C' to cancel: ");
+       String input = myObj.nextLine();
+       if (input.equalsIgnoreCase("C")) {
+           return;
+       }
+       try {
+           int index = Integer.parseInt(input);
+           if (index >= 0 && index < bookNames.size()) {
+               String removedBook = bookNames.remove(index);
+               actionStack.push("Delete: " + removedBook);
+               System.out.println("Book \"" + removedBook + "\" removed.");
+           } else {
+               System.out.println("Invalid index.");
+           }
+       } catch (NumberFormatException e) {
+           System.out.println("Error, please enter a valid index.");
+       }
+   }
+   // Display all books in the dynamic list
+   private static void displayBooks() {
+       if (bookNames.isEmpty()) {
+           System.out.println("No books available.");
+       } else {
+           System.out.println("\n* * * * * * List of books * * * * * *");
+           for (int i = 0; i < bookNames.size(); i++) {
+               System.out.println(i + ". " + bookNames.get(i));
+           }
+       }
+       System.out.println("Number of books: " + bookNames.size());
+   }
+   // Check if the dynamic list is empty
+   private static void checkIfEmpty() {
+       if (bookNames.isEmpty()) {
+           System.out.println("The library is empty.");
+       } else {
+           System.out.println("The library is not empty.");
+       }
+   }
+   // Insert a book at a specific index
+   private static void insertBook() {
+       Scanner myObj = new Scanner(System.in);
+       System.out.println("\n* * * * * * Insert a book at a specific index * * * * * *");
+       System.out.print("Enter book name: ");
+       String bookName = myObj.nextLine();
+       System.out.print("Enter the index (0 to " + bookNames.size() + "): ");
+       int index = myObj.nextInt();
+       if (index >= 0 && index <= bookNames.size()) {
+           bookNames.add(index, bookName);
+           actionStack.push("Add: " + bookName);
+           System.out.println("Book \"" + bookName + "\" added at index " + index + ".");
+       } else {
+           System.out.println("Invalid index.");
+       }
+   }
+   // Search for a book by index
+   private static void searchBookByIndex() {
+       if (bookNames.isEmpty()) {
+           System.out.println("No books available.");
+           return;
+       }
+       Scanner myObj = new Scanner(System.in);
+       System.out.print("Enter the index to search: ");
+       int index = myObj.nextInt();
+       if (index >= 0 && index < bookNames.size()) {
+           System.out.println("Book at index " + index + " is: " + bookNames.get(index));
+       } else {
+           System.out.println("Invalid index.");
+       }
+   }
+   // Display fixed-size book categories (Array)
+   private static void displayCategories() {
+       System.out.println("\n* * * * * * Book Categories * * * * * *");
+       for (int i = 0; i < bookCategories.length; i++) {
+           System.out.println(i + ". " + bookCategories[i]);
+       }
+   }
+   // Undo the last action (add or remove)
+   private static void undoAction() {
+       if (actionStack.isEmpty()) {
+           System.out.println("Nothing to undo.");
+           return;
+       }
+       String lastAction = actionStack.pop();
+       String[] parts = lastAction.split(": ");
+       String actionType = parts[0];
+       String bookName = parts[1];
+       if (actionType.equals("Add")) {
+           bookNames.remove(bookName);
+           System.out.println("Undid adding of book: " + bookName);
+       } else if (actionType.equals("Delete")) {
+           bookNames.add(bookName);
+           System.out.println("Undid removing of book: " + bookName);
+       }
+   }
+  
+   // Shell sort algorithm 
+   public static void shellSort(ArrayList<String> list) {
+       int n = list.size();
+       // Starting with a large gap and then reducing it
+       for (int gap = n / 2; gap > 0; gap /= 2) {
+           // Gapped insertion sort
+           for (int i = gap; i < n; i++) {
+               String temp = list.get(i);
+               int j;
+              
+               // Shift earlier elements until the correct location for list[i] is found
+               for (j = i; j >= gap && list.get(j - gap).compareTo(temp) > 0; j -= gap) {
+                   list.set(j, list.get(j - gap));
+               }
+               // Put temp (the original list[i]) in its correct position
+               list.set(j, temp);
+           }
+       }
+   }
+}
 
-    // ArrayList to store book names (dynamic size)
-    private static ArrayList<String> bookNames = new ArrayList<>();
-
-    // Stack to store actions for undo functionality
-    private static Stack<String> actionStack = new Stack<>();
-
-    public static void main(String[] args) {
-        boolean module = true;
-
-        while (module) {
-            Scanner myObj = new Scanner(System.in);
-            System.out.println("* * * * * * Welcome to the Library Management System * * * * * *");
-            System.out.println("Enter 'Start' to proceed with the program");
-            System.out.println("Enter 'End' to end the program");
-            String selectModule = myObj.nextLine();
-
-            if (selectModule.equalsIgnoreCase("Start")) {
-                selectOption();
-            } else if (selectModule.equalsIgnoreCase("End")) {
-                System.out.println("Program ended. Thank you!");
-                module = false;
-            } else {
-                System.out.println("Error, please enter a valid input.");
-            }
-        }
-    }
-
-    // Method to display and handle menu options
-    private static void selectOption() {
-        boolean module = true;
-
-        while (module) {
-            Scanner myObj = new Scanner(System.in);
-            System.out.println("\n* * * * * * Operations * * * * * *");
-            System.out.println("[A] Add a book");
-            System.out.println("[B] Remove a book");
-            System.out.println("[C] Display the list and number of books");
-            System.out.println("[D] Check if the library is Empty");
-            System.out.println("[E] Insert a book on a specific index");
-            System.out.println("[F] Search for a book by index");
-            System.out.println("[G] Display book categories (Fixed size Array)");
-            System.out.println("[H] Undo Adding/Removing Action");
-            System.out.println("[I] Sort Books");
-            System.out.println("[J] Exit");
-
-            String optionSelection = myObj.nextLine();
-
-            switch (optionSelection.toUpperCase()) {
-                case "A":
-                    addBook();
-                    break;
-                case "B":
-                    removeBook();
-                    break;
-                case "C":
-                    displayBooks();
-                    break;
-                case "D":
-                    checkIfEmpty();
-                    break;
-                case "E":
-                    insertBook();
-                    break;
-                case "F":
-                    searchBookByIndex();
-                    break;
-                case "G":
-                    displayCategories(); // Display fixed-size array
-                    break;
-                case "H":
-                    undoAction();
-                    break;
-                case "I":
-                    bookSort();
-                    break;
-                case "J":
-                    module = false;
-                    break;
-                default:
-                    System.out.println("Error, please enter a valid option.");
-                    break;
-            }
-        }
-    }
-
-    // Add a book to the dynamic list
-    private static void addBook() {
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("\n* * * * * * Add a book * * * * * *");
-        System.out.print("Enter book name or 'B' to return: ");
-        String bookName = myObj.nextLine();
-
-        if (bookName.equalsIgnoreCase("B")) {
-            return;
-        }
-
-        bookNames.add(bookName);
-        actionStack.push("Add: " + bookName);
-        System.out.println("Book \"" + bookName + "\" added to the library.");
-    }
-
-    // Remove a book from the dynamic list
-    private static void removeBook() {
-        if (bookNames.isEmpty()) {
-            System.out.println("No books available to remove.");
-            return;
-        }
-
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("\n* * * * * * Remove a book * * * * * *");
-        for (int i = 0; i < bookNames.size(); i++) {
-            System.out.println(i + ". " + bookNames.get(i));
-        }
-        System.out.print("Enter the index number of the book to remove or 'C' to cancel: ");
-        String input = myObj.nextLine();
-
-        if (input.equalsIgnoreCase("C")) {
-            return;
-        }
-
-        try {
-            int index = Integer.parseInt(input);
-            if (index >= 0 && index < bookNames.size()) {
-                String removedBook = bookNames.remove(index);
-                actionStack.push("Delete: " + removedBook);
-                System.out.println("Book \"" + removedBook + "\" removed.");
-            } else {
-                System.out.println("Invalid index.");
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Error, please enter a valid index.");
-        }
-    }
-
-    // Display all books in the dynamic list
-    private static void displayBooks() {
-        if (bookNames.isEmpty()) {
-            System.out.println("No books available.");
-        } else {
-            System.out.println("\n* * * * * * List of books * * * * * *");
-            for (int i = 0; i < bookNames.size(); i++) {
-                System.out.println(i + ". " + bookNames.get(i));
-            }
-        }
-        System.out.println("Number of books: " + bookNames.size());
-    }
-
-    // Check if the dynamic list is empty
-    private static void checkIfEmpty() {
-        if (bookNames.isEmpty()) {
-            System.out.println("The library is empty.");
-        } else {
-            System.out.println("The library is not empty.");
-        }
-    }
-
-    // Insert a book at a specific index
-    private static void insertBook() {
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("\n* * * * * * Insert a book at a specific index * * * * * *");
-        System.out.print("Enter book name: ");
-        String bookName = myObj.nextLine();
-        System.out.print("Enter the index (0 to " + bookNames.size() + "): ");
-        int index = myObj.nextInt();
-
-        if (index >= 0 && index <= bookNames.size()) {
-            bookNames.add(index, bookName);
-            actionStack.push("Add: " + bookName);
-            System.out.println("Book \"" + bookName + "\" added at index " + index + ".");
-        } else {
-            System.out.println("Invalid index.");
-        }
-    }
-
-    // Search for a book by index
-    private static void searchBookByIndex() {
-        if (bookNames.isEmpty()) {
-            System.out.println("No books available.");
-            return;
-        }
-
-        Scanner myObj = new Scanner(System.in);
-        System.out.print("Enter the index to search: ");
-        int index = myObj.nextInt();
-
-        if (index >= 0 && index < bookNames.size()) {
-            System.out.println("Book at index " + index + " is: " + bookNames.get(index));
-        } else {
-            System.out.println("Invalid index.");
-        }
-    }
-
-    // Display fixed-size book categories (Array)
-    private static void displayCategories() {
-        System.out.println("\n* * * * * * Book Categories * * * * * *");
-        for (int i = 0; i < bookCategories.length; i++) {
-            System.out.println(i + ". " + bookCategories[i]);
-        }
-    }
-
-    // Undo the last action (add or remove)
-    private static void undoAction() {
-        if (actionStack.isEmpty()) {
-            System.out.println("Nothing to undo.");
-            return;
-        }
-
-        String lastAction = actionStack.pop();
-        String[] parts = lastAction.split(": ");
-        String actionType = parts[0];
-        String bookName = parts[1];
-
-        if (actionType.equals("Add")) {
-            bookNames.remove(bookName);
-            System.out.println("Undid adding of book: " + bookName);
-        } else if (actionType.equals("Delete")) {
-            bookNames.add(bookName);
-            System.out.println("Undid removing of book: " + bookName);
-        }
-    }
-
-        // BUBBLE SORT
-        private static void bookSort() {
-        int n = bookNames.size();
-        if (n == 0) {
-            System.out.println("No books to sort.");
-            return;
-        }
-
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (bookNames.get(j).compareToIgnoreCase(bookNames.get(j + 1)) > 0) {
-
-                    String temp = bookNames.get(j);
-                    bookNames.set(j, bookNames.get(j + 1));
-                    bookNames.set(j + 1, temp);
-                }
-            }
         }
         System.out.println("Books have been sorted alphabetically.");
     }
